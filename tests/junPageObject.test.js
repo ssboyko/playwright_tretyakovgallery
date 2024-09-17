@@ -18,58 +18,58 @@ let article = {
     content: faker.lorem.lines(4),
     tag: faker.company.buzzNoun()
 }
+test.describe('Article suite', () => {
+    test.beforeEach('Login of existed user', async ({page}) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.open(url);
+        await loginPage.doLogin(existedUser.email, existedUser.password);
+        await expect(page.getByText(existedUser.name)).toBeVisible();
+    });
 
-const ERROR = 'Title already exists.. ';
+    test('Creating of a new article', async ({page}) => {
+        const editorPage = new EditorPage(page);
+        const h1 = page.locator('h1');
+        await editorPage.goToNewArticle();
+        await editorPage.fillArticleTitle(article.title);
+        await editorPage.fillArticleDescription(article.description);
+        await editorPage.fillArticleContent(article.content);
+        await editorPage.fillArticleTag(article.tag);
+        await editorPage.publishArticle();
+        await expect(h1).toHaveText(article.title);
+    });
 
-test.beforeEach('Login of existed user', async ({page}) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.open(url);
-    await loginPage.doLogin(existedUser.email, existedUser.password);
-    await expect(page.getByText(existedUser.name)).toBeVisible();
-});
+    test('Unable to create article without title', async ({page}) => {
+        const editorPage = new EditorPage(page);
+        await editorPage.goToNewArticle();
+        await editorPage.fillArticleTitle('test');
+        await editorPage.fillArticleDescription(article.description);
+        await editorPage.fillArticleContent(article.content);
+        await editorPage.fillArticleTag(article.tag);
+        await editorPage.publishArticle();
+        await expect(editorPage.errorMsg).toHaveText('Title already exists.. ');
+    });
 
-test('Creating of a new article', async ({page}) => {
-    const editorPage = new EditorPage(page);
-    const h1 = page.locator('h1');
-    await editorPage.goToNewArticle();
-    await editorPage.fillArticleTitle(article.title);
-    await editorPage.fillArticleDescription(article.description);
-    await editorPage.fillArticleContent(article.content);
-    await editorPage.fillArticleTag(article.tag);
-    await editorPage.publishArticle();
-    await expect(h1).toHaveText(article.title);
-});
+    test('Unable to create article with empty fields', async ({page}) => {
+        const editorPage = new EditorPage(page);
+        await editorPage.goToNewArticle();
+        await editorPage.publishArticle();
+        await expect(editorPage.titleInput).toBeVisible();
+    });
 
-test('Unable to create article without title', async ({page}) => {
-    const editorPage = new EditorPage(page);
-    await editorPage.goToNewArticle();
-    await editorPage.fillArticleTitle('test');
-    await editorPage.fillArticleDescription(article.description);
-    await editorPage.fillArticleContent(article.content);
-    await editorPage.fillArticleTag(article.tag);
-    await editorPage.publishArticle();
-    await editorPage.shouldHaveError(ERROR);
-});
+    test('Click on pagination element shows next data', async ({page}) => {
+        const mainPage = new MainPage(page);
+        await mainPage.goToGlobalFeed();
+        await mainPage.goToSecondPage();
+        await expect(mainPage.opened2PageText).toBeVisible();
+    });
 
-test('Unable to create article with empty fields', async ({page}) => {
-    const editorPage = new EditorPage(page);
-    await editorPage.goToNewArticle();
-    await editorPage.publishArticle();
-    await editorPage.titleShouldBeVisible();
-});
+    test('Tags. Click on first tag opens relevant articles', async ({page}) => {
+        const mainPage = new MainPage(page);
+        await mainPage.goToGlobalFeed();
+        await mainPage.clickOnFirstTag();
+        await expect(mainPage.articlePreview).toBeVisible();
+    });
 
-test('Click on pagination element shows next data', async ({page}) => {
-    const mainPage = new MainPage(page);
-    await mainPage.goToGlobalFeed();
-    await mainPage.goToSecondPage();
-    await expect(mainPage.opened2PageText).toBeVisible();
-});
-
-test('Tags. Click on first tag opens relevant articles', async ({page}) => {
-    const mainPage = new MainPage(page);
-    await mainPage.goToGlobalFeed();
-    await mainPage.clickOnFirstTag();
-    await expect(mainPage.articlePreview).toBeVisible();
 });
 
 

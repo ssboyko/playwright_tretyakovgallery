@@ -41,12 +41,4 @@ export class EditorPage extends BasePage {
     async publishArticle(){
         await this.publishArtictleButton.click();
     }
-
-     async shouldHaveError(expected) {
-        await expect(this.errorMsg).toHaveText(expected);
-    }
-
-    async titleShouldBeVisible() {
-        await expect(this.titleInput).toBeVisible();
-    }
 }
