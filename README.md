@@ -1,2 +1,1 @@
-# playwright_tretyakovgallery
-playwright autotest for search functionality
+![img.png](img.png)
