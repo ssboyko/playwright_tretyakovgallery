@@ -1,0 +1,1 @@
+{"6c7c58bf0e6c7e372d132bc58abfdad2:d41d8cd98f00b204e9800998ecf8427e":{"statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1},"items":[{"uid":"dc38d0a5bd7efbc2","reportUrl":"https://ssboyko.github.io/playwright_tretyakovgallery/1//#testresult/dc38d0a5bd7efbc2","status":"passed","time":{"start":1731264783452,"stop":1731264789940,"duration":6488}}]}}
