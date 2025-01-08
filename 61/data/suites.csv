@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","6292","Search at the header contains results","","Wed Jan 08 00:52:51 GMT 2025","passed","Wed Jan 08 00:52:58 GMT 2025","","tests/searchTest.spec.js","",""
